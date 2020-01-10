@@ -19,16 +19,32 @@ body {
 }
 
 .app {
+    margin-top: 10rem;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
 
-.form {
+.form-sec {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-self: center;
+}
+
+#searchForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+}
+
+#MyDate {
+    margin-bottom: 2rem;
+}
+
+#label {
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
 }
