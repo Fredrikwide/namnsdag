@@ -13,8 +13,66 @@
         <section class="form-sec">
             <form action="#" id="searchForm">
                 <label for="start" id="label">Search nameday by date or name</label>
-                <input type="date" id="MyDate">
-                <input type="search" id="search" autocomplete="off" placeholder="enter a name and/or country"></form>
+                <section id="pickDate">
+                    <label for="date" id="labelMonth">choose month and day</label>
+                    <div class="chooseDate">
+                        <select  name="chooseMonth" id="monthDrop">
+                            <!-- pick a month -->
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <select  name="chooseDay" id="dayDrop">
+                            <!-- pick a day of the month -->
+                            <option value="day1">1</option>
+                            <option value="day2">2</option>
+                            <option value="day3">3</option>
+                            <option value="day4">4</option>
+                            <option value="day5">5</option>
+                            <option value="day6">6</option>
+                            <option value="day7">7</option>
+                            <option value="day8">8</option>
+                            <option value="day9">9</option>
+                            <option value="day10">10</option>
+    
+                            <option value="day11">11</option>
+                            <option value="day12">12</option>
+                            <option value="day13">13</option>
+                            <option value="day14">14</option>
+                            <option value="day15">15</option>
+                            <option value="day16">16</option>
+                            <option value="day17">17</option>
+                            <option value="day18">18</option>
+                            <option value="day19">19</option>
+                            <option value="day20">20</option>
+    
+                            <option value="day21">21</option>
+                            <option value="day22">22</option>
+                            <option value="day23">23</option>
+                            <option value="day24">24</option>
+                            <option value="day25">25</option>
+                            <option value="day26">26</option>
+                            <option value="day27">27</option>
+                            <option value="day28">28</option>
+                            <option value="day29">29</option>
+                            <option value="day30">30</option>
+                            <option value="day31">31</option>
+    
+                        </select>
+                    </div>                    
+                </section>
+                <input type="search" id="search" autocomplete="off" placeholder="enter a name">
+                <button type="submit" id="btnSubmit">Search</button>
+            </form>
         </section>
     </main>
 <script src="app/getDate.js"></script>

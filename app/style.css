@@ -48,3 +48,28 @@ body {
     font-size: 1.3rem;
     margin-bottom: 2rem;
 }
+
+#btnSubmit {
+    width: 60px;
+    height: 20px;
+    background-color: rgb(23, 92, 241);
+    outline: none;
+    border: none;
+    margin-top: 1rem;
+}
+
+#btnSubmit:hover{
+    filter: brightness(150%);
+}
+
+.chooseDate {
+
+}
+
+#monthDrop {
+    
+}
+
+#daydrop {
+    
+}
