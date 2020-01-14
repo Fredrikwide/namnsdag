@@ -21,15 +21,9 @@ body {
 .app {
     margin-top: 10rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-sec {
-    display: flex;
     flex-direction: column;
     justify-content: center;
-    align-self: center;
+    align-items: center;
 }
 
 #searchForm {
@@ -37,6 +31,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-self: center;
+    background-color: rgb(193, 193, 224);
 }
 
 #MyDate {
@@ -63,13 +58,28 @@ body {
 }
 
 .chooseDate {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
 
 }
 
-#monthDrop {
-    
+#displayResultHere {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#daydrop {
-    
+#newDiv {
+    display: flex;
+    flex-basis: 0;
+    text-align: center;
+    background-color: antiquewhite;
+}
+
+#newDiv p {
+    color: black;
+
 }
