@@ -1,20 +1,62 @@
-const resultDiv = document.querySelector('#displayResultHere');
+let resultDiv = document.querySelector('#displayResultHere');
+
+// sortera länder efter bokstavorning
+
+function sortSelectOptions() {
+
+    let options = CHOOSE_COUNTRY.options;
+
+    let optionsArray = [];
+    for (let i = 0; i < options.length; i++) {
+        optionsArray.push(options[i]);
+    }
+    optionsArray = optionsArray.sort(function (a, b) {
+        return a.innerHTML.charCodeAt(0) - b.innerHTML.charCodeAt(0);
+    });
+
+    for (let i = 0; i <= options.length; i++) {
+
+        options[i] = optionsArray[i];
+    }
+
+}
+
+sortSelectOptions();
+
+
+
+
+const checkResults = (name, day, month) => {
+    getData().then(data => {
+
+
+    })
+}
+
+
+// rendera resultaten från get-metoden
 
 const renderResults = () => {
-    getData().then(data => {
-        console.log(data);
-        searchBar.value = "";
-        data.results.forEach(elem => {
-            const makeVis = `<div id="newDiv"><p>${elem.name}</p></div>`
 
-            resultDiv.innerHTML += makeVis;
+    // kör get-metoden och sedan rendera resultat
 
-        });
-    });
+
 }
 
 FORM.addEventListener('submit', function (e) {
     e.preventDefault();
-    renderResults();
+    getData().then(data => {
 
+        console.log(data);
+
+        data.results.forEach(elem => {
+
+            clg(elem.name);
+
+            let renderHTML = `<p>${elem.name}</p>`;
+
+            resultDiv += renderHTML;
+
+        });
+    });
 });

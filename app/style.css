@@ -30,8 +30,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-self: center;
+    align-items: center;
     background-color: rgb(193, 193, 224);
+    padding: 2rem;
 }
 
 #MyDate {
@@ -51,6 +52,7 @@ body {
     outline: none;
     border: none;
     margin-top: 1rem;
+    color: rgb(238, 232, 224);
 }
 
 #btnSubmit:hover{
@@ -60,26 +62,29 @@ body {
 .chooseDate {
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap;
+    padding: 0.2rem;
     margin-bottom: 2rem;
+}
 
+#pickDate {
+    text-align: center;
+}
+
+.chooseDate select {
+   margin: 1rem;
 }
 
 #displayResultHere {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-#newDiv {
-    display: flex;
-    flex-basis: 0;
+    background-color: cornsilk;
     text-align: center;
-    background-color: antiquewhite;
+    margin: 1rem
 }
 
-#newDiv p {
-    color: black;
 
+#displayResultHere p {
+    color: black;
+    padding: 0.2rem;
 }
