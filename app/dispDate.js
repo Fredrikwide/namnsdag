@@ -56,12 +56,13 @@ const getURL = function (country, day, month) {
 
 }
 
-let calcUrl = getURL(chosenCountry, chosenDay, chosenMonth);
+
 
 
 
 FORM.addEventListener('submit', function (e) {
     e.preventDefault();
+    let calcUrl = getURL(chosenCountry, chosenDay, chosenMonth);
     clg(`chosen country is : ${chosenCountry}, chosen month is : ${chosenMonth}, chosen day is : ${chosenDay}`);
     resultDiv.innerHTML = "";
     getData(calcUrl).then(data => {
