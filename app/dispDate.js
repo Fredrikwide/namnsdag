@@ -1,62 +1,88 @@
-let resultDiv = document.querySelector('#displayResultHere');
+const resultDiv = document.querySelector('#showMe');
+var searchBar = document.querySelector('#search');
+const FORM = document.querySelector('#searchForm');
 
-// sortera länder efter bokstavorning
+const CHOOSE_COUNTRY = document.querySelector('#countryList');
+const CHOOSE_MONTH = document.querySelector('#monthDrop');
+const CHOOSE_DAY = document.querySelector('#dayDrop');
 
-function sortSelectOptions() {
+var clg = console.log;
 
-    let options = CHOOSE_COUNTRY.options;
+const corsAnywhere = 'https://cors-anywhere.herokuapp.com/'
+let fetchURL;
+let fetchURL1 = corsAnywhere + `https://api.abalin.net/namedays?country=${chosenCountry}&month=${chosenMonth}&day=${chosenDay}`;
+let fetchURL2 = corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`
 
-    let optionsArray = [];
-    for (let i = 0; i < options.length; i++) {
-        optionsArray.push(options[i]);
+var chosenCountry;
+var chosenDay;
+var chosenMonth;
+
+
+CHOOSE_COUNTRY.addEventListener('change', function (e) {
+    chosenCountry = CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].value;
+    clg(chosenCountry);
+
+
+})
+
+CHOOSE_DAY.addEventListener('change', function (e) {
+    chosenDay = CHOOSE_DAY.options[CHOOSE_DAY.selectedIndex].text;
+    clg(chosenDay);
+
+})
+
+CHOOSE_MONTH.addEventListener('change', function (e) {
+    chosenMonth = CHOOSE_MONTH.value;
+    clg(chosenMonth);
+
+})
+
+
+
+
+const getURL = function (country, day, month) {
+
+    if (country !== 0 && searchBar.value) {
+        return fetchURL = fetchURL2;
     }
-    optionsArray = optionsArray.sort(function (a, b) {
-        return a.innerHTML.charCodeAt(0) - b.innerHTML.charCodeAt(0);
-    });
 
-    for (let i = 0; i <= options.length; i++) {
+    else if ((country !== 0 && day !== 0 && month !== 0)) {
+        return fetchURL = fetchURL1;
+    }
 
-        options[i] = optionsArray[i];
+    else {
+        throw new Error('search for either name and country or day/month and country');
     }
 
 }
 
-sortSelectOptions();
+let calcUrl = getURL(chosenCountry, chosenDay, chosenMonth);
 
 
-
-
-const checkResults = (name, day, month) => {
-    getData().then(data => {
-
-
-    })
-}
-
-
-// rendera resultaten från get-metoden
-
-const renderResults = () => {
-
-    // kör get-metoden och sedan rendera resultat
-
-
-}
 
 FORM.addEventListener('submit', function (e) {
     e.preventDefault();
-    getData().then(data => {
-
+    clg(`chosen country is : ${chosenCountry}, chosen month is : ${chosenMonth}, chosen day is : ${chosenDay}`);
+    resultDiv.innerHTML = "";
+    getData(calcUrl).then(data => {
         console.log(data);
-
         data.results.forEach(elem => {
-
-            clg(elem.name);
-
-            let renderHTML = `<p>${elem.name}</p>`;
-
-            resultDiv += renderHTML;
-
+            clg(elem);
+            if (elem.name.includes(searchBar.value)) {
+                clg('hello');
+                const find = elem.name.indexOf(searchBar.value);
+                clg(find);
+                const namelng = find + searchVal.length;
+                clg(namelng);
+                const name = elem.name.slice(namelng, name);
+                clg('i found this name', name);
+            }
+            const renderHTML = `<p>${name} name day is <span>${elem.day}&#47;${elem.month}</span></p>`;
+            resultDiv.innerHTML += renderHTML;
         });
-    });
+
+    }).catch(err => {
+        const errHTML = `<h1>somehting went wrong :( ${err}</h1>`
+        resultDiv.innerHTML += errHTML;
+    })
 });

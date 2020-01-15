@@ -75,16 +75,15 @@ body {
 }
 
 #displayResultHere {
+    max-width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: cornsilk;
     text-align: center;
-    margin: 1rem
 }
 
 
 #displayResultHere p {
     color: black;
-    padding: 0.2rem;
 }
