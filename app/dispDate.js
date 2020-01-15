@@ -10,8 +10,6 @@ var clg = console.log;
 
 const corsAnywhere = 'https://cors-anywhere.herokuapp.com/'
 let fetchURL;
-let fetchURL1 = corsAnywhere + `https://api.abalin.net/namedays?country=${chosenCountry}&month=${chosenMonth}&day=${chosenDay}`;
-let fetchURL2 = corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`
 
 var chosenCountry;
 var chosenDay;
@@ -43,11 +41,11 @@ CHOOSE_MONTH.addEventListener('change', function (e) {
 const getURL = function (country, day, month) {
 
     if (country !== 0 && searchBar.value) {
-        return fetchURL = fetchURL2;
+        return fetchURL = corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`;
     }
 
     else if ((country !== 0 && day !== 0 && month !== 0)) {
-        return fetchURL = fetchURL1;
+        return fetchURL = corsAnywhere + `https://api.abalin.net/namedays?country=${chosenCountry}&month=${chosenMonth}&day=${chosenDay}`;
     }
 
     else {
@@ -73,7 +71,7 @@ FORM.addEventListener('submit', function (e) {
                 clg('hello');
                 const find = elem.name.indexOf(searchBar.value);
                 clg(find);
-                const namelng = find + searchVal.length;
+                const namelng = find + searchBar.value.length;
                 clg(namelng);
                 const name = elem.name.slice(namelng, name);
                 clg('i found this name', name);
