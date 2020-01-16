@@ -9,7 +9,7 @@ const CHOOSE_DAY = document.querySelector('#dayDrop');
 var clg = console.log;
 
 const corsAnywhere = 'https://cors-anywhere.herokuapp.com/'
-let fetchURL;
+
 
 var chosenCountry;
 var chosenDay;
@@ -41,11 +41,11 @@ CHOOSE_MONTH.addEventListener('change', function (e) {
 const getURL = function (country, day, month) {
 
     if (country !== 0 && searchBar.value) {
-        return fetchURL = corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`;
+        return corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`;
     }
 
     else if ((country !== 0 && day !== 0 && month !== 0)) {
-        return fetchURL = corsAnywhere + `https://api.abalin.net/namedays?country=${chosenCountry}&month=${chosenMonth}&day=${chosenDay}`;
+        return corsAnywhere + `https://api.abalin.net/namedays?country=${chosenCountry}&month=${chosenMonth}&day=${chosenDay}`;
     }
 
     else {
@@ -57,32 +57,41 @@ const getURL = function (country, day, month) {
 
 
 FORM.addEventListener('submit', function (e) {
+
     e.preventDefault();
+
     let calcUrl = getURL(chosenCountry, chosenDay, chosenMonth);
+
     clg(`chosen country is : ${chosenCountry}, chosen month is : ${chosenMonth}, chosen day is : ${chosenDay}`);
+
     resultDiv.innerHTML = "";
+
     getData(calcUrl).then(data => {
         console.log(data);
+
         if(calcUrl === corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`)
-        {data.results.forEach(elem => {
-            if(elem.name.includes(searchBar.value)){
-                let kirby = elem.name.indexOf(searchBar.value);
-                let bandanaWaddleDee = kirby + searchBar.value.length;
-                let chefKawasaki = elem.name.slice(kirby, bandanaWaddleDee);
-                const renderHTML = `<p>${chefKawasaki}s name day is <span>${elem.day}&#47;${elem.month}</span></p>`;
+        {
+            data.results.forEach(elem => {
+            clg("searchBar", searchBar.value, "elem", elem.name)
+            searchedNamed = searchBar.value[0].toUpperCase() + searchBar.value.slice(1);
+            clg(searchedNamed);
+                if(elem.name === searchedNamed){      
+                const renderHTML = `<p>${elem.name}s nameday is <span>${elem.day}&#47;${elem.month}</span></p>`;
                 resultDiv.innerHTML += renderHTML;
             }
             else {
-                clg('no name matches the search');
+                throw new Error (`this name: ${searchBar.value} has no nameday in this country: ${chosenCountry}`)
             }
+
         });
-    }
+        }
     else {
         data.data.forEach(day => {
-            const CC = chosenCountry;
-            const createHTML = `<p> in ${CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].text} on 
-            ${day.dates.day}&#47;${day.dates.month} the name ${day.namedays[CC]} has a nameday</p>`;
-            resultDiv.innerHTML += createHTML;
+                const CC = chosenCountry;
+                const createHTML = `<p> in ${CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].text} on 
+                ${day.dates.day}&#47;${day.dates.month} the name ${day.namedays[CC]} has a nameday</p>`;
+                resultDiv.innerHTML += createHTML;
+                clg(`no nameday for ${searchBar.value} in this ${chosenCountry}`);    
         })
     }
     }).catch(err => {
