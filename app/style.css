@@ -1,3 +1,4 @@
+  
 *,*::before,*::after{
     box-sizing: border-box;
     margin: 0;
@@ -21,22 +22,18 @@ body {
 .app {
     margin-top: 10rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-sec {
-    display: flex;
     flex-direction: column;
     justify-content: center;
-    align-self: center;
+    align-items: center;
 }
 
 #searchForm {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-self: center;
+    align-items: center;
+    background-color: rgb(193, 193, 224);
+    padding: 2rem;
 }
 
 #MyDate {
@@ -56,6 +53,7 @@ body {
     outline: none;
     border: none;
     margin-top: 1rem;
+    color: rgb(238, 232, 224);
 }
 
 #btnSubmit:hover{
@@ -63,13 +61,30 @@ body {
 }
 
 .chooseDate {
-
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0.2rem;
+    margin-bottom: 2rem;
 }
 
-#monthDrop {
-    
+#pickDate {
+    text-align: center;
 }
 
-#daydrop {
-    
+.chooseDate select {
+   margin: 1rem;
+}
+
+#displayResultHere {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: cornsilk;
+    text-align: center;
+}
+
+
+#displayResultHere p {
+    color: black;
 }
