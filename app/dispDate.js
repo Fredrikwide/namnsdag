@@ -35,9 +35,6 @@ CHOOSE_MONTH.addEventListener('change', function (e) {
 
 })
 
-
-
-
 const getURL = function (country, day, month) {
 
     if (country !== 0 && searchBar.value) {
@@ -53,8 +50,6 @@ const getURL = function (country, day, month) {
     }
 
 }
-
-
 
 FORM.addEventListener('submit', function (e) {
 
@@ -72,18 +67,23 @@ FORM.addEventListener('submit', function (e) {
         if(calcUrl === corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`)
         {
             data.results.forEach(elem => {
-            clg("searchBar", searchBar.value, "elem", elem.name)
-            searchedNamed = searchBar.value[0].toUpperCase() + searchBar.value.slice(1);
-            clg(searchedNamed);
-                if(elem.name === searchedNamed){      
-                const renderHTML = `<p>${elem.name}s nameday is <span>${elem.day}&#47;${elem.month}</span></p>`;
-                resultDiv.innerHTML += renderHTML;
-            }
-            else {
-                throw new Error (`this name: ${searchBar.value} has no nameday in this country: ${chosenCountry}`)
-            }
 
-        });
+            clg("searchBar", searchBar.value, "elem", elem.name);
+
+            const searchedNamed = searchBar.value[0].toUpperCase() + searchBar.value.slice(1);
+
+            clg(searchedNamed);
+                elem.find(current => {
+                    if(elem.name === searchedNamed){      
+                        const renderHTML = `<p>${elem.name}s nameday is <span>${elem.day}&#47;${elem.month}</span></p>`;
+                        resultDiv.innerHTML += renderHTML;
+                    }
+                    else 
+                    {
+                        throw new Error (`this name: ${searchBar.value} has no nameday in this country: ${chosenCountry}`)
+                    }
+                });
+       }); 
         }
     else {
         data.data.forEach(day => {
