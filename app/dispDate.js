@@ -6,46 +6,35 @@ const CHOOSE_COUNTRY = document.querySelector('#countryList');
 const CHOOSE_MONTH = document.querySelector('#monthDrop');
 const CHOOSE_DAY = document.querySelector('#dayDrop');
 
-var clg = console.log;
+var clg = console.log; //shorthand variable
 
-const corsAnywhere = 'https://cors-anywhere.herokuapp.com/'
-let fetchURL;
+const corsAnywhere = 'https://cors-anywhere.herokuapp.com/' //cors anywhere länk (just in case);
 
-var chosenCountry;
+
+
+var chosenCountry;  // variabler för att spara dropdown värden i
 var chosenDay;
 var chosenMonth;
 
 
-CHOOSE_COUNTRY.addEventListener('change', function (e) {
-    chosenCountry = CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].value;
-    clg(chosenCountry);
+// event listeners för dropdowns som "sätter" värde till ovan variabler
 
+CHOOSE_COUNTRY.addEventListener('change', () => chosenCountry = CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].value);
 
-})
+CHOOSE_DAY.addEventListener('change', () => chosenDay = CHOOSE_DAY.options[CHOOSE_DAY.selectedIndex].text);
 
-CHOOSE_DAY.addEventListener('change', function (e) {
-    chosenDay = CHOOSE_DAY.options[CHOOSE_DAY.selectedIndex].text;
-    clg(chosenDay);
+CHOOSE_MONTH.addEventListener('change', () => chosenMonth = CHOOSE_MONTH.value);
 
-})
-
-CHOOSE_MONTH.addEventListener('change', function (e) {
-    chosenMonth = CHOOSE_MONTH.value;
-    clg(chosenMonth);
-
-})
-
-
-
+// function som skickar tillbaka URL att fetcha beroende på vilka värden som ges av input
 
 const getURL = function (country, day, month) {
 
     if (country !== 0 && searchBar.value) {
-        return fetchURL = corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`;
+        return corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`;
     }
 
     else if ((country !== 0 && day !== 0 && month !== 0)) {
-        return fetchURL = corsAnywhere + `https://api.abalin.net/namedays?country=${chosenCountry}&month=${chosenMonth}&day=${chosenDay}`;
+        return corsAnywhere + `https://api.abalin.net/namedays?country=${chosenCountry}&month=${chosenMonth}&day=${chosenDay}`;
     }
 
     else {
@@ -55,33 +44,56 @@ const getURL = function (country, day, month) {
 }
 
 
-
-
+// main function som hämtar data och renderar
 
 FORM.addEventListener('submit', function (e) {
-    e.preventDefault();
-    let calcUrl = getURL(chosenCountry, chosenDay, chosenMonth);
-    clg(`chosen country is : ${chosenCountry}, chosen month is : ${chosenMonth}, chosen day is : ${chosenDay}`);
-    resultDiv.innerHTML = "";
-    getData(calcUrl).then(data => {
-        console.log(data);
-        data.results.forEach(elem => {
-            clg(elem);
-            if (elem.name.includes(searchBar.value)) {
-                clg('hello');
-                const find = elem.name.indexOf(searchBar.value);
-                clg(find);
-                const namelng = find + searchBar.value.length;
-                clg(namelng);
-                const name = elem.name.slice(namelng, name);
-                clg('i found this name', name);
-            }
-            const renderHTML = `<p>${name} name day is <span>${elem.day}&#47;${elem.month}</span></p>`;
-            resultDiv.innerHTML += renderHTML;
-        });
 
+    e.preventDefault();
+
+    let calcUrl = getURL(chosenCountry, chosenDay, chosenMonth); // sätter calc url till värdet av returnerade värdet från getUrl funktionen
+
+    clg(`chosen country is : ${chosenCountry}, chosen month is : ${chosenMonth}, chosen day is : ${chosenDay}`); //console log för att kolla att värdena stämmer
+
+    resultDiv.innerHTML = ""; //clearar div
+
+    const searchedNamed = searchBar.value[0].toUpperCase() + searchBar.value.slice(1); // ser till att första bokstavningen i sökningen alltid är uppercase
+
+    // kör get metoden och skickar med den url som ska sökas på
+
+    getData(calcUrl).then(data => {
+
+        //kollar vilken url som hämtat data och kör därefter lämplig forEach funktion
+
+        if (calcUrl === corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`) {
+            data.results.forEach(elem => {
+
+                // ser till att det sökta namnet överänstämmer med något returnerat namn som har namnsdag genom att slice:a 
+
+                if (elem.name.includes(searchedNamed)) {
+                    const newName = elem.name.indexOf(searchedNamed);
+                    const sliceMe = newName + searchedNamed.length;
+                    elem.name = elem.name.slice(newName, sliceMe);
+                    const renderHTML = `<p>${elem.name}'s nameday is <span>${elem.day}&#47;${elem.month}</span></p>`;
+                    resultDiv.innerHTML += renderHTML;
+                }
+                else {
+                    throw new Error(`this name: ${searchedNamed} has no nameday in this country: ${chosenCountry}`); //skickar felmeddeland eom namn ej kan matchas.
+                }
+
+            });
+        }
+        // kör denna funktion om du söker på månad/dag i något land
+        else {
+            data.data.forEach(day => {
+                const CC = chosenCountry;
+                const createHTML = `<p> in ${CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].text} on 
+                ${day.dates.day}&#47;${day.dates.month} the name ${day.namedays[CC]} has a nameday</p>`;
+                resultDiv.innerHTML += createHTML;
+                clg(`no nameday for ${searchBar.value} in this ${chosenCountry}`);
+            });
+        }
     }).catch(err => {
-        const errHTML = `<h1>somehting went wrong :( ${err}</h1>`
+        const errHTML = `<h1>somehting went wrong :( ${err}</h1>`  //fångar och skickar felmeddelande.
         resultDiv.innerHTML += errHTML;
-    })
+    });
 });
