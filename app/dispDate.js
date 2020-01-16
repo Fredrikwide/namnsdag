@@ -56,7 +56,7 @@ FORM.addEventListener('submit', function (e) {
 
     resultDiv.innerHTML = ""; //clearar div
 
-    const searchedNamed = searchBar.value[0].toUpperCase() + searchBar.value.slice(1); // ser till att första bokstavningen i sökningen alltid är uppercase
+
 
     // kör get metoden och skickar med den url som ska sökas på
 
@@ -69,6 +69,8 @@ FORM.addEventListener('submit', function (e) {
 
                 // ser till att det sökta namnet överänstämmer med något returnerat namn som har namnsdag genom att slice:a 
 
+                const searchedNamed = searchBar.value[0].toUpperCase() + searchBar.value.slice(1); // ser till att första bokstavningen i sökningen alltid är uppercase
+
                 if (elem.name.includes(searchedNamed)) {
                     const newName = elem.name.indexOf(searchedNamed);
                     const sliceMe = newName + searchedNamed.length;
@@ -77,7 +79,7 @@ FORM.addEventListener('submit', function (e) {
                     resultDiv.innerHTML += renderHTML;
                 }
                 else {
-                    throw new Error(`this name: ${searchedNamed} has no nameday in this country: ${chosenCountry}`); //skickar felmeddeland eom namn ej kan matchas.
+                    alert(`this name: ${searchedNamed} has no nameday in this country: ${chosenCountry}`); //skickar felmeddeland eom namn ej kan matchas.
                 }
 
             });
@@ -89,7 +91,6 @@ FORM.addEventListener('submit', function (e) {
                 const createHTML = `<p> in ${CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].text} on 
                 ${day.dates.day}&#47;${day.dates.month} the name ${day.namedays[CC]} has a nameday</p>`;
                 resultDiv.innerHTML += createHTML;
-                clg(`no nameday for ${searchBar.value} in this ${chosenCountry}`);
             });
         }
     }).catch(err => {
