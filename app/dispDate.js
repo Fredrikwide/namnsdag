@@ -20,8 +20,10 @@ var chosenMonth;
 // event listeners för dropdowns som "sätter" värde till ovan variabler
 
 CHOOSE_COUNTRY.addEventListener('change', () => chosenCountry = CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].value);
+console.log(chosenCountry)
 
 CHOOSE_DAY.addEventListener('change', () => chosenDay = CHOOSE_DAY.options[CHOOSE_DAY.selectedIndex].text);
+console.log(chosenCountry)
 
 CHOOSE_MONTH.addEventListener('change', () => chosenMonth = CHOOSE_MONTH.value);
 
@@ -33,7 +35,8 @@ const getURL = function (country, day, month) {
         return corsAnywhere + `https://api.abalin.net/getdate?name=${searchBar.value}&country=${chosenCountry}`;
     }
 
-    else if ((country !== 0 && day !== 0 && month !== 0)) {
+    else if ((country && day && month)) {
+        console.log('this is now true TRUE')
         return corsAnywhere + `https://api.abalin.net/namedays?country=${chosenCountry}&month=${chosenMonth}&day=${chosenDay}`;
     }
 
@@ -72,9 +75,7 @@ FORM.addEventListener('submit', function (e) {
                 const searchedNamed = searchBar.value[0].toUpperCase() + searchBar.value.slice(1); // ser till att första bokstavningen i sökningen alltid är uppercase
 
                 if (elem.name.includes(searchedNamed)) {
-                    const newName = elem.name.indexOf(searchedNamed);
-                    const sliceMe = newName + searchedNamed.length;
-                    elem.name = elem.name.slice(newName, sliceMe);
+
                     const renderHTML = `<p>${elem.name}'s nameday is <span>${elem.day}&#47;${elem.month}</span></p>`;
                     resultDiv.innerHTML += renderHTML;
                 }
@@ -86,12 +87,12 @@ FORM.addEventListener('submit', function (e) {
         }
         // kör denna funktion om du söker på månad/dag i något land
         else {
-            data.data.forEach(day => {
-                const CC = chosenCountry;
-                const createHTML = `<p> in ${CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].text} on 
-                ${day.dates.day}&#47;${day.dates.month} the name ${day.namedays[CC]} has a nameday</p>`;
-                resultDiv.innerHTML += createHTML;
-            });
+            console.log('this is the data', data.data)
+            const CC = chosenCountry
+            const createHTML = `<p> in ${CHOOSE_COUNTRY.options[CHOOSE_COUNTRY.selectedIndex].text} on 
+                ${data.data.dates.day}&#47;${data.data.dates.month} the name ${data.data.namedays[CC]} has a nameday</p>`;
+            resultDiv.innerHTML += createHTML;
+
         }
     }).catch(err => {
         const errHTML = `<h1>somehting went wrong :( ${err}</h1>`  //fångar och skickar felmeddelande.
